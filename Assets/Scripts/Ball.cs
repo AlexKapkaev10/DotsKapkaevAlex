@@ -17,28 +17,27 @@ public class Ball : MonoBehaviour
 
     public void ChageSprite()
     {
-        DOTween.Kill(transform);
-
-        transform.DOScale(0, 0.2f).SetEase(Ease.Linear).OnComplete(()=>
+        transform.DOScale(0, 0.2f).SetEase(Ease.Linear).OnComplete(() =>
         {
             sprite.sprite = GameManager.instance.tileSprites[Random.Range(0, GameManager.instance.tileSprites.Length)];
+
             transform.DOScale(0.5f, 0.1f).SetEase(Ease.Linear);
         });
-        
+
     }
 
     public void HoldAnimation()
     {
         transform.DOScale(0.56f, 0.1f).SetEase(Ease.InBack);
+
         sprite.DOColor(new Color(0.5f, 0.5f, 0.5f), 0.1f);
-        //sprite.color = new Color(0.5f, 0.5f, 0.5f);
     }
 
     public void EndAnimation()
     {
         sprite.color = new Color(1, 1, 1);
 
-        transform.DOScale(0.5f, 0.2f).SetEase(Ease.Linear);
+        transform.DOScale(0.5f, 0.1f).SetEase(Ease.Linear);
 
         sprite.DOColor(new Color(1, 1, 1), 0.2f);
     }
@@ -49,24 +48,21 @@ public class Ball : MonoBehaviour
 
         int a = 1;
         int b = 1;
-            //hit.Length - 1;
 
         for (int i = 0; i < hit.Length; i++)
         {
             if (hit[i].collider.gameObject == gameObject) continue;
 
-            hit[i].collider.GetComponent<Image>().sprite = GameManager.instance.tileSprites[Random.Range(0, GameManager.instance.tileSprites.Length)];
-
-            hit[a].transform.DOScale(0, 0.05f).SetEase(Ease.Linear).SetDelay(i * 0.05f).OnComplete(() =>
+            hit[a].transform.DOScale(0, 0.05f).SetEase(Ease.Linear).SetDelay(i * 0.07f).OnComplete(() =>
             {
-                hit[b].transform.DOScale(0.5f, 0.06f).SetDelay(i * 0.02f).SetEase(Ease.Linear);
+                hit[b].collider.GetComponent<Image>().sprite = GameManager.instance.tileSprites[Random.Range(0, GameManager.instance.tileSprites.Length)];
+
+                hit[b].transform.DOScale(0.5f, 0.06f).SetDelay(i * 0.05f).SetEase(Ease.Linear);
+
                 b++;
             });
 
             a++;
-
-            Debug.Log(hit[i].collider.name);
         }
-        //a = 0;
     }
 }

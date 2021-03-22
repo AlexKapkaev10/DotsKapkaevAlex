@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class GameManager : MonoBehaviour
 {
@@ -48,6 +49,11 @@ public class GameManager : MonoBehaviour
         scoreTxt.text = "Счет " + score.ToString();
 
         PlayerPrefs.SetInt("score", score);
+    }
+
+    public void OnDisable()
+    {
+        DOTween.KillAll();
     }
 
 }

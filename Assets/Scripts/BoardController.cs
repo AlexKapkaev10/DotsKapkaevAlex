@@ -85,6 +85,7 @@ public class BoardController : MonoBehaviour
         foreach (var item in allFoundColliders)
         {
             item.enabled = true;
+
             if(item.gameObject.layer == 8)
                 item.GetComponent<Ball>().isHold = false;
         }
@@ -100,15 +101,12 @@ public class BoardController : MonoBehaviour
             {
                 item.FoundUpBalls();
 
-                //item.transform.localScale = Vector3.zero;
-
                 item.ChageSprite();
 
             }
 
             GameManager.instance.FinishSession(foundBalls.Count);
         }
-
 
         foundBalls.Clear();
 
