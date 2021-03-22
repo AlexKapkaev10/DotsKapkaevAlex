@@ -29,7 +29,7 @@ public class Ball : MonoBehaviour
 
     public void HoldAnimation()
     {
-        transform.DOScale(0.55f, 0.1f).SetEase(Ease.InBack);
+        transform.DOScale(0.56f, 0.1f).SetEase(Ease.InBack);
         sprite.DOColor(new Color(0.5f, 0.5f, 0.5f), 0.1f);
         //sprite.color = new Color(0.5f, 0.5f, 0.5f);
     }
@@ -47,7 +47,9 @@ public class Ball : MonoBehaviour
     {
         RaycastHit2D[] hit = Physics2D.RaycastAll(transform.position, Vector2.up);
 
-        int a = 0;
+        int a = 1;
+        int b = 1;
+            //hit.Length - 1;
 
         for (int i = 0; i < hit.Length; i++)
         {
@@ -55,12 +57,14 @@ public class Ball : MonoBehaviour
 
             hit[i].collider.GetComponent<Image>().sprite = GameManager.instance.tileSprites[Random.Range(0, GameManager.instance.tileSprites.Length)];
 
-            //hit[a].transform.DOScale(0, 0.2f).SetEase(Ease.Linear).OnComplete(() =>
-            //{
-                
-            //    hit[a].transform.DOScale(0.5f, 0.1f).SetEase(Ease.Linear);
-            //});
+            hit[a].transform.DOScale(0, 0.05f).SetEase(Ease.Linear).SetDelay(i * 0.05f).OnComplete(() =>
+            {
+                hit[b].transform.DOScale(0.5f, 0.06f).SetDelay(i * 0.02f).SetEase(Ease.Linear);
+                b++;
+            });
+
             a++;
+
             Debug.Log(hit[i].collider.name);
         }
         //a = 0;

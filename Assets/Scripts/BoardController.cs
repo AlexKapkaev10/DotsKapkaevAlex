@@ -106,7 +106,7 @@ public class BoardController : MonoBehaviour
 
             }
 
-            GameManager.instance.GameScore(foundBalls.Count);
+            GameManager.instance.FinishSession(foundBalls.Count);
         }
 
 
