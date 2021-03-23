@@ -10,6 +10,8 @@ public class Ball : MonoBehaviour
 
     public bool isHold;
 
+    public int row, column;
+
     private void Awake()
     {
         sprite = GetComponent<Image>();
@@ -17,12 +19,8 @@ public class Ball : MonoBehaviour
 
     public void ChageSprite()
     {
-        transform.DOScale(0, 0.2f).SetEase(Ease.Linear).OnComplete(() =>
-        {
-            sprite.sprite = GameManager.instance.tileSprites[Random.Range(0, GameManager.instance.tileSprites.Length)];
+        sprite.sprite = GameManager.instance.tileSprites[Random.Range(0, GameManager.instance.tileSprites.Length)];
 
-            transform.DOScale(0.5f, 0.1f).SetEase(Ease.Linear);
-        });
 
     }
 
@@ -42,8 +40,15 @@ public class Ball : MonoBehaviour
         sprite.DOColor(new Color(1, 1, 1), 0.2f);
     }
 
-    public void FoundUpBalls()
+    public void BlowBalls()
     {
+        transform.DOScale(0, 0.1f).SetEase(Ease.Linear).OnComplete(() =>
+        {
+            transform.DOScale(0.5f, 0.1f).SetEase(Ease.Linear);
+
+            GameManager.instance.MoveRow(column, row);
+        });
+
         RaycastHit2D[] hit = Physics2D.RaycastAll(transform.position, Vector2.up);
 
         int a = 1;
@@ -53,11 +58,9 @@ public class Ball : MonoBehaviour
         {
             if (hit[i].collider.gameObject == gameObject) continue;
 
-            hit[a].transform.DOScale(0, 0.05f).SetEase(Ease.Linear).SetDelay(i * 0.07f).OnComplete(() =>
+            hit[a].transform.DOScale(0, 0.05f).SetEase(Ease.Linear).SetDelay(i * 0.02f).OnComplete(() =>
             {
-                hit[b].collider.GetComponent<Image>().sprite = GameManager.instance.tileSprites[Random.Range(0, GameManager.instance.tileSprites.Length)];
-
-                hit[b].transform.DOScale(0.5f, 0.06f).SetDelay(i * 0.05f).SetEase(Ease.Linear);
+                hit[b].transform.DOScale(0.5f, 0.06f).SetDelay(i * 0.02f).SetEase(Ease.Linear);
 
                 b++;
             });

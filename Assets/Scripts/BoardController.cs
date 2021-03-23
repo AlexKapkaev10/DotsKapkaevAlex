@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public class BoardController : MonoBehaviour
 {
@@ -45,7 +46,6 @@ public class BoardController : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             EndGameSession();
-
         }
     }
 
@@ -95,14 +95,13 @@ public class BoardController : MonoBehaviour
             item.EndAnimation();
         }
 
+        foundBalls = foundBalls.OrderBy(ball => ball.row).ToList();
+
         if (foundBalls.Count >= 2)
         {
             foreach (var item in foundBalls)
             {
-                item.FoundUpBalls();
-
-                item.ChageSprite();
-
+                item.BlowBalls();
             }
 
             GameManager.instance.FinishSession(foundBalls.Count);
